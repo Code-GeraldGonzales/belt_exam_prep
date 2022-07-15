@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>Dashboard</title>
+</head>
+<body>
+    {% with messages = get_flashed_messages() %} <!-- declare a variable called messages -->
+        {% if messages %}                        <!-- check if there are any messages -->
+            {% for message in messages %}        <!-- loop through the messages -->
+                <p>{{message}}</p>               <!-- display each message in a p=aragraph tag -->
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <h1>Welcome {{user.first_name}} {{user.last_name}}</h1>
+    <a href="/reviews/new">Create a New Review!</a>
+    <table>
+        <thead>
+            <tr>
+                <th>Ttile</th>
+                <th>Rating</th>
+                <th>Uplaoded</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for review in reviews %}
+                <tr>
+                    <td>{{review.title}}</td>
+                    <td>{{review.rating}}</td>
+                    <td>{{review.user.first_name}} {{review.user.last_name}}</td>
+                    <td>
+                        <a href="/reviews/{{review.id}}">Show</a>
+                        {% if review.user_id == user.id %}
+                        <a href="/reviews/{{review.id}}/edit">Show</a>
+                        <form action="/reviews/{{review.id}}/delete" method="POST">
+                            <input name="id" type="hidden" value="{{review.id}}"/>
+                            <button type="submit">Delete </button>
+                        </form>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    <a href="/logout">Logout</a>
+    
+</body>
+</html>

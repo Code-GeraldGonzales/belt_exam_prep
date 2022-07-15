@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>Add a Review</title>
+</head>
+<body>
+    <h2>Welcome, {{user.first_name}}!</h2>
+    {% with messages = get_flashed_messages() %} <!-- declare a variable called messages -->
+        {% if messages %}                        <!-- check if there are any messages -->
+            {% for message in messages %}        <!-- loop through the messages -->
+                <p>{{message}}</p>               <!-- display each message in a p=aragraph tag -->
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <a href="/dashboard">Logout</a>
+
+    <h1>Add a new movie review</h1>
+    <form action="/reviews/create" method="POST">
+        <input name='user_id' type="hidden" value="{{user.id}}">
+        <p>Ttile: <input name="title" type="text"></p>
+        <p>Rating: <input name="rating" type="number"></p>
+        <p>Date Watched: <input name="date_watched" type="date"></p>
+        <p>Content: <textarea name="content"></textarea></p>
+        <button type="submit">Create a New Review</button>
+    </form>
+    <a href="/logout">Logout</a>
+</body>
+</html>

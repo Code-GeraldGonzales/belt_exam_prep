@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>Add a Review</title>
+</head>
+<body>
+    <h2>Welcome, {{user.first_name}}!</h2>
+    {% with messages = get_flashed_messages() %} <!-- declare a variable called messages -->
+        {% if messages %}                        <!-- check if there are any messages -->
+            {% for message in messages %}        <!-- loop through the messages -->
+                <p>{{message}}</p>               <!-- display each message in a p=aragraph tag -->
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <a href="/dashboard">Back To Dashboard</a>
+        <p>Edit: {{review.title}}</p>
+        <form action="/reviews/{{review.id}}/update" method="POST">
+            <input name="id" value="{{review.id}}" type="hidden">
+            <p>Ttile: <input name="title" type="text" value="{{review.title}}"></p>
+            <p>Rating: <input name="rating" type="number" value="{{review.rating}}"></p>
+            <p>Date Watched: <input name="date_watched" type="date" value="{{review.date_watched.strftime('%Y-%m-%d')}}"></p>
+            <p>Content: <textarea name="content">{{review.content}}</textarea></p>
+            <button type="submit">Edit {{review.title}}!</button>
+        </form>
+    <a href="/logout">Logout</a>
+</body>
+</html>
